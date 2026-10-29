@@ -1,4 +1,5 @@
 export type Result = {
+  kafka_lag_at_completion: number;
   accepted: number;
   duplicates: number;
   invalid: number;
@@ -45,6 +46,7 @@ export type Bar = {
   log_return: string | null;
   moving_average_20: string | null;
   rolling_volatility: string | null;
+  realized_volatility: string | null;
   anomaly_score: string | null;
   gap_before: boolean;
 };

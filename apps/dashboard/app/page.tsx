@@ -923,7 +923,12 @@ export default function Dashboard() {
                             <span>VOLATILITY</span>
                             <p>
                               Unannualized standard deviation in a contiguous
-                              20-bar window.
+                              20-bar window. Latest:{" "}
+                              {count(bars.at(-1)?.rolling_volatility, 6)}.
+                              Realized volatility:{" "}
+                              {count(bars.at(-1)?.realized_volatility, 6)}, the
+                              square root of summed squared available log
+                              returns.
                             </p>
                           </div>
                           <div>
@@ -1149,6 +1154,40 @@ function OperationsView({ ops }: { ops: Operations | null }) {
               : r.lag_p95_seconds.toFixed(2) + "s"
           }
           note="Ingestion timestamp to PostgreSQL fact commit"
+          icon={Clock3}
+        />
+      </div>
+      <div className="metrics-grid">
+        <Metric
+          label="Kafka backlog at completion"
+          value={count(r.kafka_lag_at_completion)}
+          note="Broker end offsets minus observed Spark offsets"
+          icon={Radio}
+        />
+        <Metric
+          label="Accepted bars / second"
+          value={count(r.accepted_events_per_second, 1)}
+          note="Whole replay; includes JVM startup and both queries"
+          icon={Activity}
+        />
+        <Metric
+          label="Replay runtime"
+          value={
+            ops.run.elapsed_seconds == null
+              ? "Unavailable"
+              : ops.run.elapsed_seconds.toFixed(2) + "s"
+          }
+          note="Measured execution time; queue wait excluded"
+          icon={Clock3}
+        />
+        <Metric
+          label="p50 curation delay"
+          value={
+            r.lag_p50_seconds == null
+              ? "Unavailable"
+              : r.lag_p50_seconds.toFixed(2) + "s"
+          }
+          note="Historical event age is a separate measure"
           icon={Clock3}
         />
       </div>
