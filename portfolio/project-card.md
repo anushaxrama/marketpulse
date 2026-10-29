@@ -8,6 +8,8 @@
 
 **Status:** Working local historical replay demonstration. See `project-status.json` and the verification evidence for tested scope.
 
+**GitHub:** https://github.com/anushaxrama/marketpulse
+
 **Local demonstration:** http://127.0.0.1:8031 after `make demo`. This is not a public hosted endpoint.
 
 **Source terms:** Binance public-data attribution, CC BY-NC-SA 4.0 and dataset terms; see `docs/data-license.md`.

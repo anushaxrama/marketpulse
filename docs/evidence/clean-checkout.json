@@ -1,0 +1,36 @@
+{
+  "source_commit": "e71cfc95ab2c02495b97e402ff61bf8c3d5d4645",
+  "source": "git archive into an empty /tmp directory, no virtualenv or node_modules",
+  "compose_project": "marketpulse-clean",
+  "fresh_volumes": true,
+  "host_ports": "removed only to avoid conflicts with the running main demo",
+  "build": "docker compose -p marketpulse-clean -f compose.yaml -f compose.verify.yaml build; existing dependency-layer cache reused",
+  "start": "MP_LAB_ENABLED=true docker compose -p marketpulse-clean -f compose.yaml -f compose.verify.yaml up -d --no-build",
+  "demo": "docker compose -p marketpulse-clean -f compose.yaml -f compose.verify.yaml exec -T api marketpulse demo",
+  "checks": "Full proxy/API/warehouse read and ten SQL checks passed",
+  "seconds_start_to_verified": 57.53174262499999,
+  "proof": {
+    "run_id": "222177e9-c151-43d4-af26-894980a54da0",
+    "result": {
+      "faults": [],
+      "invalid": 0,
+      "windows": 864,
+      "accepted": 4320,
+      "conflicts": 0,
+      "delivered": 4320,
+      "duplicates": 0,
+      "reconciled": true,
+      "source_mode": "historical_replay",
+      "volume_unit": "base asset units; bars, not quote volume",
+      "window_bars": 4320,
+      "expected_unique": 4320,
+      "lag_p50_seconds": 16.777738499999998,
+      "lag_p95_seconds": 24.7159674,
+      "event_id_fingerprint": "b0f0f52637c08e60f0c5464f17c64335",
+      "kafka_lag_at_completion": 0,
+      "late_dropped_from_windows": 0,
+      "accepted_events_per_second": 120.5185275635341
+    },
+    "symbols": 3
+  }
+}

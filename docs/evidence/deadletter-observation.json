@@ -1,0 +1,14 @@
+{
+  "method": "Read actual Kafka dead-letter topic from beginning through captured end offsets, with no consumer group commits. No raw invalid payload published in this evidence.",
+  "run_id": "fbba2501-cf01-4675-aeb8-dff980849a16",
+  "records": [
+    {
+      "topic": "market.deadletter.v1",
+      "partition": 0,
+      "offset": 2,
+      "run_id": "fbba2501-cf01-4675-aeb8-dff980849a16",
+      "source_offset": "market.raw.v1:0:31712",
+      "reason_present": true
+    }
+  ]
+}

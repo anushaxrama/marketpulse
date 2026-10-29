@@ -1,0 +1,454 @@
+{
+  "captured_at_utc": "2026-10-29T22:22:57.549159+00:00",
+  "environment": {
+    "system": "Darwin",
+    "machine": "arm64",
+    "python": "3.12.16",
+    "spark": "4.0.4",
+    "scala_connector": "2.13",
+    "source_day": "2025-01-06",
+    "note": "Local Docker Desktop; one Spark driver local[2]. Includes JVM startup, queue processing and database writes; not a sustained production load test."
+  },
+  "dataset": {
+    "id": "695db16341e6612d61851d6c",
+    "day": "2025-01-06",
+    "mode": "historical_replay",
+    "events": 4320,
+    "sources": [
+      {
+        "url": "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1m/BTCUSDT-1m-2025-01-06.zip",
+        "rows": 1440,
+        "bytes": 72324,
+        "sha256": "4332f1e3f7db5d1aacaa7a21bf8b1e72ede11906eee34b2916c9933610d034a5",
+        "symbol": "BTCUSDT"
+      },
+      {
+        "url": "https://data.binance.vision/data/spot/daily/klines/ETHUSDT/1m/ETHUSDT-1m-2025-01-06.zip",
+        "rows": 1440,
+        "bytes": 68503,
+        "sha256": "3ffab1466db66adf64101737eb828ffded80c961c06e775a040ea042d08bddaa",
+        "symbol": "ETHUSDT"
+      },
+      {
+        "url": "https://data.binance.vision/data/spot/daily/klines/SOLUSDT/1m/SOLUSDT-1m-2025-01-06.zip",
+        "rows": 1440,
+        "bytes": 62751,
+        "sha256": "15d0365ba9301f4b83ae839bcec7c941f4112c5a86eecdb2bec000e629df4ade",
+        "symbol": "SOLUSDT"
+      }
+    ],
+    "currency": "USDT",
+    "attribution": "Binance Vision",
+    "granularity": "1-minute OHLCV",
+    "license_url": "https://github.com/binance/binance-public-data/blob/master/TERMS_AND_CONDITIONS.md",
+    "normalized_sha256": "112420a318a138234a8ddce00f1bc65332dcf4586d6abb0446fa6eb1781b6186"
+  },
+  "runs": [
+    {
+      "id": "6c82ac11-8e26-476b-9da9-807a5491658f",
+      "replay_id": "bebd360c9b9c3ed64a21a64f",
+      "scenario": "baseline",
+      "window_minutes": 5,
+      "watermark_minutes": 10,
+      "input_count": 4320,
+      "expected_count": 4320,
+      "elapsed_seconds": 29.680214722000528,
+      "created_at": "2026-10-29 22:17:37.377389+00:00",
+      "finished_at": "2026-10-29 22:18:08.310033+00:00",
+      "result": {
+        "faults": [],
+        "invalid": 0,
+        "windows": 864,
+        "accepted": 4320,
+        "conflicts": 0,
+        "delivered": 4320,
+        "duplicates": 0,
+        "reconciled": true,
+        "source_mode": "historical_replay",
+        "volume_unit": "base asset units; bars, not quote volume",
+        "window_bars": 4320,
+        "expected_unique": 4320,
+        "lag_p50_seconds": 12.224856500000001,
+        "lag_p95_seconds": 20.793794249999998,
+        "event_id_fingerprint": "b0f0f52637c08e60f0c5464f17c64335",
+        "kafka_lag_at_completion": 0,
+        "late_dropped_from_windows": 0,
+        "accepted_events_per_second": 145.55150764451142
+      }
+    },
+    {
+      "id": "adcabe7d-7ab2-4aa2-bdba-db5a9bd3791c",
+      "replay_id": "7cf9ce4392519eda8d47220f",
+      "scenario": "duplicate",
+      "window_minutes": 5,
+      "watermark_minutes": 10,
+      "input_count": 4364,
+      "expected_count": 4320,
+      "elapsed_seconds": 24.49604717799957,
+      "created_at": "2026-10-29 22:18:09.613763+00:00",
+      "finished_at": "2026-10-29 22:18:59.438807+00:00",
+      "result": {
+        "faults": [],
+        "invalid": 0,
+        "windows": 864,
+        "accepted": 4320,
+        "conflicts": 0,
+        "delivered": 4364,
+        "duplicates": 44,
+        "reconciled": true,
+        "source_mode": "historical_replay",
+        "volume_unit": "base asset units; bars, not quote volume",
+        "window_bars": 4320,
+        "expected_unique": 4320,
+        "lag_p50_seconds": 8.167887,
+        "lag_p95_seconds": 16.2875125,
+        "event_id_fingerprint": "b0f0f52637c08e60f0c5464f17c64335",
+        "kafka_lag_at_completion": 0,
+        "late_dropped_from_windows": 0,
+        "accepted_events_per_second": 176.35498366772762
+      }
+    },
+    {
+      "id": "c45e3275-09ae-474c-b54f-b19dc0612764",
+      "replay_id": "893192ece1408cca5cd787c4",
+      "scenario": "late",
+      "window_minutes": 5,
+      "watermark_minutes": 10,
+      "input_count": 4320,
+      "expected_count": 4320,
+      "elapsed_seconds": 26.19737030399847,
+      "created_at": "2026-10-29 22:18:59.968443+00:00",
+      "finished_at": "2026-10-29 22:20:13.131343+00:00",
+      "result": {
+        "faults": [],
+        "invalid": 0,
+        "windows": 864,
+        "accepted": 4320,
+        "conflicts": 0,
+        "delivered": 4320,
+        "duplicates": 0,
+        "reconciled": true,
+        "source_mode": "historical_replay",
+        "volume_unit": "base asset units; bars, not quote volume",
+        "window_bars": 4317,
+        "expected_unique": 4320,
+        "lag_p50_seconds": 8.1612325,
+        "lag_p95_seconds": 16.6752964,
+        "event_id_fingerprint": "b0f0f52637c08e60f0c5464f17c64335",
+        "kafka_lag_at_completion": 0,
+        "late_dropped_from_windows": 3,
+        "accepted_events_per_second": 164.90204741430267
+      }
+    },
+    {
+      "id": "71b18caf-5a58-4a5c-bf49-e9594bee7905",
+      "replay_id": "fb46aaef71be519c45933bb2",
+      "scenario": "reorder",
+      "window_minutes": 5,
+      "watermark_minutes": 10,
+      "input_count": 4320,
+      "expected_count": 4320,
+      "elapsed_seconds": 24.7685249280039,
+      "created_at": "2026-10-29 22:20:13.730379+00:00",
+      "finished_at": "2026-10-29 22:20:39.926970+00:00",
+      "result": {
+        "faults": [],
+        "invalid": 0,
+        "windows": 864,
+        "accepted": 4320,
+        "conflicts": 0,
+        "delivered": 4320,
+        "duplicates": 0,
+        "reconciled": true,
+        "source_mode": "historical_replay",
+        "volume_unit": "base asset units; bars, not quote volume",
+        "window_bars": 4320,
+        "expected_unique": 4320,
+        "lag_p50_seconds": 8.3017565,
+        "lag_p95_seconds": 16.809956,
+        "event_id_fingerprint": "b0f0f52637c08e60f0c5464f17c64335",
+        "kafka_lag_at_completion": 0,
+        "late_dropped_from_windows": 0,
+        "accepted_events_per_second": 174.41490813672567
+      }
+    },
+    {
+      "id": "7606576e-e14c-4f87-b897-6777dbf58be9",
+      "replay_id": "65ebfef1fb89881ede2d9668",
+      "scenario": "outage",
+      "window_minutes": 5,
+      "watermark_minutes": 10,
+      "input_count": 4320,
+      "expected_count": 4320,
+      "elapsed_seconds": 25.889162886996928,
+      "created_at": "2026-10-29 22:20:41.937748+00:00",
+      "finished_at": "2026-10-29 22:21:30.938914+00:00",
+      "result": {
+        "faults": [
+          {
+            "fault": "producer_pause",
+            "details": {
+              "kind": "controlled local producer pause; no upstream outage claimed",
+              "pause_seconds": 1
+            }
+          }
+        ],
+        "invalid": 0,
+        "windows": 864,
+        "accepted": 4320,
+        "conflicts": 0,
+        "delivered": 4320,
+        "duplicates": 0,
+        "reconciled": true,
+        "source_mode": "historical_replay",
+        "volume_unit": "base asset units; bars, not quote volume",
+        "window_bars": 4320,
+        "expected_unique": 4320,
+        "lag_p50_seconds": 8.363382000000001,
+        "lag_p95_seconds": 16.76318675,
+        "event_id_fingerprint": "b0f0f52637c08e60f0c5464f17c64335",
+        "kafka_lag_at_completion": 0,
+        "late_dropped_from_windows": 0,
+        "accepted_events_per_second": 166.865186752321
+      }
+    },
+    {
+      "id": "deceb1e3-203b-47ad-99d6-99b287556312",
+      "replay_id": "2d73597c4a68395fb7946c9f",
+      "scenario": "restart",
+      "window_minutes": 5,
+      "watermark_minutes": 10,
+      "input_count": 4320,
+      "expected_count": 4320,
+      "elapsed_seconds": 25.56613763600035,
+      "created_at": "2026-10-29 22:21:32.291027+00:00",
+      "finished_at": "2026-10-29 22:21:58.531401+00:00",
+      "result": {
+        "faults": [
+          {
+            "fault": "after_window_commit",
+            "details": {
+              "batch_id": 0,
+              "sink_committed": true
+            }
+          }
+        ],
+        "invalid": 0,
+        "windows": 864,
+        "accepted": 4320,
+        "conflicts": 0,
+        "delivered": 4320,
+        "duplicates": 0,
+        "reconciled": true,
+        "source_mode": "historical_replay",
+        "volume_unit": "base asset units; bars, not quote volume",
+        "window_bars": 4320,
+        "expected_unique": 4320,
+        "lag_p50_seconds": 8.5442465,
+        "lag_p95_seconds": 16.89110575,
+        "event_id_fingerprint": "b0f0f52637c08e60f0c5464f17c64335",
+        "kafka_lag_at_completion": 0,
+        "late_dropped_from_windows": 0,
+        "accepted_events_per_second": 168.97350947203284
+      }
+    },
+    {
+      "id": "7ab6290a-db67-4e9e-b83d-cd9085ea1a5b",
+      "replay_id": "7457e6e9d718d3c4f26673cf",
+      "scenario": "warehouse_retry",
+      "window_minutes": 5,
+      "watermark_minutes": 10,
+      "input_count": 4320,
+      "expected_count": 4320,
+      "elapsed_seconds": 27.673376428996562,
+      "created_at": "2026-10-29 22:22:00.482981+00:00",
+      "finished_at": "2026-10-29 22:22:28.213374+00:00",
+      "result": {
+        "faults": [
+          {
+            "fault": "after_window_commit",
+            "details": {
+              "batch_id": 0,
+              "sink_committed": true
+            }
+          }
+        ],
+        "invalid": 0,
+        "windows": 864,
+        "accepted": 4320,
+        "conflicts": 0,
+        "delivered": 4320,
+        "duplicates": 0,
+        "reconciled": true,
+        "source_mode": "historical_replay",
+        "volume_unit": "base asset units; bars, not quote volume",
+        "window_bars": 4320,
+        "expected_unique": 4320,
+        "lag_p50_seconds": 9.9921475,
+        "lag_p95_seconds": 19.2935077,
+        "event_id_fingerprint": "b0f0f52637c08e60f0c5464f17c64335",
+        "kafka_lag_at_completion": 0,
+        "late_dropped_from_windows": 0,
+        "accepted_events_per_second": 156.10671907290077
+      }
+    },
+    {
+      "id": "fbba2501-cf01-4675-aeb8-dff980849a16",
+      "replay_id": "7397a158d3548987de343aaf",
+      "scenario": "poison",
+      "window_minutes": 5,
+      "watermark_minutes": 10,
+      "input_count": 4321,
+      "expected_count": 4320,
+      "elapsed_seconds": 26.403424095995433,
+      "created_at": "2026-10-29 22:22:28.683640+00:00",
+      "finished_at": "2026-10-29 22:22:56.637347+00:00",
+      "result": {
+        "faults": [],
+        "invalid": 1,
+        "windows": 864,
+        "accepted": 4320,
+        "conflicts": 0,
+        "delivered": 4321,
+        "duplicates": 0,
+        "reconciled": true,
+        "source_mode": "historical_replay",
+        "volume_unit": "base asset units; bars, not quote volume",
+        "window_bars": 4320,
+        "expected_unique": 4320,
+        "lag_p50_seconds": 8.2326245,
+        "lag_p95_seconds": 17.09804145,
+        "event_id_fingerprint": "b0f0f52637c08e60f0c5464f17c64335",
+        "kafka_lag_at_completion": 0,
+        "late_dropped_from_windows": 0,
+        "accepted_events_per_second": 163.61514265322913
+      }
+    }
+  ],
+  "sql_checks": [
+    {
+      "check_name": "invalid_ohlc",
+      "failures": 0
+    },
+    {
+      "check_name": "duplicate_bar_identity",
+      "failures": 0
+    },
+    {
+      "check_name": "duplicate_symbol_minute",
+      "failures": 0
+    },
+    {
+      "check_name": "missing_run_relationship",
+      "failures": 0
+    },
+    {
+      "check_name": "missing_symbol_relationship",
+      "failures": 0
+    },
+    {
+      "check_name": "unknown_mode",
+      "failures": 0
+    },
+    {
+      "check_name": "accepted_fact_mismatch",
+      "failures": 0
+    },
+    {
+      "check_name": "unpublished_outbox",
+      "failures": 0
+    },
+    {
+      "check_name": "off_minute_bar",
+      "failures": 0
+    },
+    {
+      "check_name": "invalid_stream_window",
+      "failures": 0
+    }
+  ],
+  "query_plan": [
+    {
+      "QUERY PLAN": [
+        {
+          "Plan": {
+            "Node Type": "Limit",
+            "Parallel Aware": false,
+            "Async Capable": false,
+            "Startup Cost": 0.42,
+            "Total Cost": 216.05,
+            "Plan Rows": 60,
+            "Plan Width": 15,
+            "Actual Startup Time": 0.014,
+            "Actual Total Time": 0.028,
+            "Actual Rows": 60,
+            "Actual Loops": 1,
+            "Shared Hit Blocks": 8,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0,
+            "Plans": [
+              {
+                "Node Type": "Index Scan",
+                "Parent Relationship": "Outer",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Scan Direction": "Forward",
+                "Index Name": "bars_time_idx",
+                "Relation Name": "fact_bars",
+                "Alias": "fact_bars",
+                "Startup Cost": 0.42,
+                "Total Cost": 5355.35,
+                "Plan Rows": 1490,
+                "Plan Width": 15,
+                "Actual Startup Time": 0.014,
+                "Actual Total Time": 0.025,
+                "Actual Rows": 60,
+                "Actual Loops": 1,
+                "Index Cond": "((run_id = '6c82ac11-8e26-476b-9da9-807a5491658f'::uuid) AND (symbol = 'BTCUSDT'::text))",
+                "Rows Removed by Index Recheck": 0,
+                "Shared Hit Blocks": 8,
+                "Shared Read Blocks": 0,
+                "Shared Dirtied Blocks": 0,
+                "Shared Written Blocks": 0,
+                "Local Hit Blocks": 0,
+                "Local Read Blocks": 0,
+                "Local Dirtied Blocks": 0,
+                "Local Written Blocks": 0,
+                "Temp Read Blocks": 0,
+                "Temp Written Blocks": 0
+              }
+            ]
+          },
+          "Planning": {
+            "Shared Hit Blocks": 143,
+            "Shared Read Blocks": 0,
+            "Shared Dirtied Blocks": 0,
+            "Shared Written Blocks": 0,
+            "Local Hit Blocks": 0,
+            "Local Read Blocks": 0,
+            "Local Dirtied Blocks": 0,
+            "Local Written Blocks": 0,
+            "Temp Read Blocks": 0,
+            "Temp Written Blocks": 0
+          },
+          "Planning Time": 0.266,
+          "Triggers": [],
+          "Execution Time": 0.04
+        }
+      ]
+    }
+  ],
+  "query_with_connection_seconds": 0.012052458012476563,
+  "limits": [
+    "Snowflake account integration is unverified without credentials.",
+    "Live and delayed provider subscriptions are not implemented.",
+    "Mobile tests emulate Chromium, not real-device Safari."
+  ]
+}

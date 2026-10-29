@@ -22,6 +22,7 @@ Snowflake account execution and licensed live subscriptions are not verified. Th
 Requirements: Docker with Compose and `make`. The first build downloads Java, Spark, the matching Kafka connector, and frontend packages, so allow several minutes. No market-data key or cloud account is required.
 
 ```sh
+git clone https://github.com/anushaxrama/marketpulse.git
 cd marketpulse
 make demo
 ```
@@ -49,6 +50,12 @@ With the stack running:
 4. Open Replay & reliability, choose a scenario, and review its bounded configuration before launching it.
 5. Compare completed runs using expected counts, observed counts, and the retained event-ID fingerprint.
 6. Open Data catalog or Architecture to inspect provenance and the failure boundaries.
+
+## Running application
+
+![MarketPulse historical market overview](docs/screenshots/overview.png)
+
+This screenshot comes from the running local stack. It displays official historical source observations, with Binance Vision attribution and [source-data terms](docs/data-license.md). More views: [operations](docs/screenshots/operations.png) and [mobile](docs/screenshots/overview-mobile.png).
 
 ## Architecture
 
@@ -92,7 +99,7 @@ make replay SCENARIO=baseline WINDOW=15 WATERMARK=30
 
 The `restart` and `warehouse_retry` names use the same injected boundary. They do not represent two different infrastructure-failure mechanisms. HTTP timeouts, rate limits, corrupt files, and interrupted publication are tested separately with isolated fixtures and test doubles.
 
-Each run has a unique instance ID and its own checkpoints. A deterministic replay ID identifies the source/configuration/scenario/seed combination. Repeating a configuration gives a comparable replay identity without reusing another experiment's state. Window choices are 1, 5, or 15 minutes; watermark tolerances are 2, 10, or 30 minutes.
+Each run has a unique instance ID and its own checkpoints. A deterministic replay ID identifies the source/configuration/scenario/seed combination. Repeating a configuration gives a comparable replay identity without reusing another experiment's state. Window choices are 1, 5, or 15 minutes; watermark tolerances are 2, 10, or 30 minutes. Publish speed changes execution pacing and is deliberately outside the comparable replay identity.
 
 At most three runs may be queued or running, only one worker executes at a time, and the registered dataset is capped at 10,000 source events. Lab launch is disabled unless `MP_LAB_ENABLED=true`. The frontend requires confirmation and rejects cross-origin launch requests outside the configured loopback allowlist.
 
@@ -189,6 +196,10 @@ make benchmark
 
 `verify` runs the real replay experiments and records aggregate evidence. `benchmark` queues another actual baseline and prints measured runtime, throughput, and curation-delay percentiles. JVM startup and local database work are included. These are small local replay measurements, not sustained production throughput or evidence of an optimization.
 
+The final local run passed **33 Python tests** with one Snowflake account test skipped, **2 chart helper tests**, and **8 desktop/mobile browser journeys**. Eight actual Kafka/Spark experiments reconciled; ten SQL checks and exact OHLCV comparisons across nine no-drop configurations passed. A separate clean-source stack with new volumes processed all 4,320 bars.
+
+The measured 5m/10m baseline took **29.68 seconds**, including JVM startup and both queries. Its p50/p95 curation delays were **12.22/20.79 seconds**. Those are small local replay observations, not production capacity or live-feed latency.
+
 See [verification](docs/verification.md), [measured benchmarks](docs/benchmarks.md), and [the status matrix](portfolio/project-status.json). Python tests use labeled synthetic fixtures in a separate database. Real historical sources and synthetic poison envelopes remain distinguishable.
 
 ## Optional Snowflake export
@@ -233,3 +244,5 @@ portfolio/                    Case study, project card, resume and interview not
 ```
 
 The [runbook](docs/runbook.md), [security notes](docs/security.md), [deployment options](docs/deployment.md), and [case study](portfolio/case-study.md) provide the remaining detail. This repository is independent of SignalFlow and AtlasIQ and does not modify their applications or a personal portfolio website.
+
+Original project code uses the [MIT license](LICENSE). Downloaded market data and derived screenshots/reports retain separate [source-data terms](docs/data-license.md).

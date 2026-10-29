@@ -1,0 +1,29 @@
+{
+  "definition": "Observed time from durable fault marker to completed replay. Includes resumed streaming and reconciliation; not a process or broker restart SLA.",
+  "observations": [
+    {
+      "id": "7606576e-e14c-4f87-b897-6777dbf58be9",
+      "scenario": "outage",
+      "fault": "producer_pause",
+      "injected_at": "2026-10-29 22:21:05.214476+00:00",
+      "finished_at": "2026-10-29 22:21:30.938914+00:00",
+      "seconds_after_fault": "25.724438"
+    },
+    {
+      "id": "deceb1e3-203b-47ad-99d6-99b287556312",
+      "scenario": "restart",
+      "fault": "after_window_commit",
+      "injected_at": "2026-10-29 22:21:55.195467+00:00",
+      "finished_at": "2026-10-29 22:21:58.531401+00:00",
+      "seconds_after_fault": "3.335934"
+    },
+    {
+      "id": "7ab6290a-db67-4e9e-b83d-cd9085ea1a5b",
+      "scenario": "warehouse_retry",
+      "fault": "after_window_commit",
+      "injected_at": "2026-10-29 22:22:24.954620+00:00",
+      "finished_at": "2026-10-29 22:22:28.213374+00:00",
+      "seconds_after_fault": "3.258754"
+    }
+  ]
+}

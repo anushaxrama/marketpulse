@@ -4,6 +4,7 @@ const ready = async (page: any) => {
 };
 test("six pages show real data without document overflow or runtime errors", async ({
   page,
+  isMobile,
 }) => {
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
@@ -19,6 +20,11 @@ test("six pages show real data without document overflow or runtime errors", asy
     await ready(page);
     await expect(page.locator("main h1")).toBeVisible();
     await expect(page.locator(".error")).toHaveCount(0);
+    if (process.env.MP_CAPTURE_SCREENSHOTS === "true" && route === "overview")
+      await page.screenshot({
+        path: `../../docs/screenshots/overview-${isMobile ? "mobile" : "desktop"}.png`,
+        fullPage: true,
+      });
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,

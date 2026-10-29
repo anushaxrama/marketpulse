@@ -1,0 +1,100 @@
+{
+  "project": "MarketPulse",
+  "version": "0.1.0",
+  "verified_on": "2026-10-29",
+  "source_mode": "historical_replay",
+  "github": "https://github.com/anushaxrama/marketpulse",
+  "public_demo_url": null,
+  "local_demo_url": "http://127.0.0.1:8031",
+  "dataset": {
+    "provider": "Binance Vision",
+    "day": "2025-01-06",
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT",
+      "SOLUSDT"
+    ],
+    "granularity": "one-minute OHLCV bars",
+    "events": 4320,
+    "currency": "USDT",
+    "terms": "See docs/data-license.md; data derivatives are not relicensed under MIT"
+  },
+  "features": {
+    "historical_provider": {
+      "status": "implemented_and_locally_verified",
+      "evidence": "Official source archive checksums, actual 4320-bar dataset"
+    },
+    "kafka_spark_pipeline": {
+      "status": "implemented_and_locally_verified",
+      "evidence": "Eight real Kafka and Spark scenarios completed"
+    },
+    "watermark_windows": {
+      "status": "implemented_and_locally_verified",
+      "evidence": "1/5/15-minute baselines and three observed late exclusions"
+    },
+    "postgres_sink_recovery": {
+      "status": "implemented_and_locally_verified",
+      "evidence": "Post-commit acknowledgement fault, checkpoint retry, ledger suppression"
+    },
+    "warehouse_models": {
+      "status": "implemented_and_locally_verified",
+      "evidence": "Ten data checks and nine exact OHLCV reference comparisons"
+    },
+    "anomaly_baseline": {
+      "status": "implemented_and_locally_verified",
+      "evidence": "Prior 20 returns, synthetic spike and gap tests; exploratory only"
+    },
+    "dashboard_api": {
+      "status": "implemented_and_locally_verified",
+      "evidence": "Six views, 8 desktop/mobile journeys, actual UI launch"
+    },
+    "clean_setup": {
+      "status": "implemented_and_locally_verified",
+      "evidence": "Independent source archive and fresh Docker volumes"
+    },
+    "snowflake_exporter": {
+      "status": "implemented_account_unverified",
+      "evidence": "Real stage/COPY/MERGE path; account test skipped without credentials"
+    },
+    "licensed_live_feed": {
+      "status": "interface_only",
+      "evidence": "Historical adapter protocol exists; no live subscription implementation"
+    },
+    "cloud_deployment": {
+      "status": "not_deployed",
+      "evidence": "No public hosted URL; local application only"
+    },
+    "distributed_recovery": {
+      "status": "unverified",
+      "evidence": "Single broker and local[2] Spark driver; no HA claim"
+    }
+  },
+  "tests": {
+    "python_passed": 33,
+    "python_skipped": 1,
+    "skip_reason": "Snowflake account integration credentials not supplied",
+    "frontend_helpers_passed": 2,
+    "browser_journeys_passed": 8,
+    "real_stream_scenarios_passed": 8,
+    "sql_checks_passed": 10,
+    "exact_ohlcv_configurations_passed": 9
+  },
+  "evidence": [
+    "docs/evidence/streaming-verification.json",
+    "docs/evidence/window-reference.json",
+    "docs/evidence/recovery-observations.json",
+    "docs/evidence/clean-checkout.json"
+  ],
+  "limitations": [
+    "At-least-once outbox publication; no global exactly-once guarantee",
+    "Update-mode tail windows remain provisional",
+    "Historical selected crypto symbols; no equity corporate actions or investment recommendations",
+    "Restart and warehouse_retry exercise the same commit-boundary injection"
+  ],
+  "ci": {
+    "implementation_commit": "e71cfc9",
+    "status": "passed",
+    "url": "https://github.com/anushaxrama/marketpulse/actions/runs/40965637194",
+    "scope": "Python/PostgreSQL tests, lint/types, frontend helper/format/type/build checks, Compose config and package audits; populated stream/browser suites verified locally"
+  }
+}

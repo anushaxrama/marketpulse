@@ -1,0 +1,27 @@
+{
+  "checked_on": "2026-10-29",
+  "python": {
+    "tool": "pip-audit 2.9.0",
+    "scope": "Frozen base runtime requirements; excludes optional Spark/Snowflake/development extras",
+    "packages": 20,
+    "known_vulnerabilities": 0
+  },
+  "frontend": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0
+    },
+    "dependencies": 16,
+    "devDependencies": 0,
+    "optionalDependencies": 44,
+    "totalDependencies": 60
+  },
+  "excludes": [
+    "Container OS scanning",
+    "JVM connector scanning",
+    "Optional Snowflake dependency audit"
+  ]
+}
