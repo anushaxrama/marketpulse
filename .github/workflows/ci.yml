@@ -1,0 +1,45 @@
+name: Verify MarketPulse
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: marketpulse
+          POSTGRES_PASSWORD: testonly
+          POSTGRES_DB: marketpulse_test
+        ports: ['5546:5432']
+        options: >-
+          --health-cmd "pg_isready -U marketpulse -d marketpulse_test"
+          --health-interval 3s --health-timeout 3s --health-retries 30
+    env:
+      MP_TEST_DATABASE_URL: postgresql://marketpulse:testonly@127.0.0.1:5546/marketpulse_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with: {version: '0.13.6', python-version: '3.12', enable-cache: true}
+      - run: uv sync --frozen --extra dev
+      - run: uv run ruff check marketpulse services tests scripts infra
+      - run: uv run ruff format --check marketpulse services tests scripts infra
+      - run: uv run mypy marketpulse services
+      - run: uv run pytest -q
+      - uses: pnpm/action-setup@v4
+        with: {version: '11.25.0'}
+      - uses: actions/setup-node@v4
+        with: {node-version: '24'}
+      - run: pnpm --dir apps/dashboard install --frozen-lockfile
+      - run: pnpm --dir apps/dashboard format:check
+      - run: pnpm --dir apps/dashboard typecheck
+      - run: pnpm --dir apps/dashboard test
+      - run: pnpm --dir apps/dashboard build
+      - run: docker compose config --quiet
+      - name: Python dependency audit
+        run: |
+          uv export --frozen --no-dev --no-emit-project --format requirements-txt --output-file /tmp/marketpulse-requirements.txt
+          uvx --from pip-audit==2.9.0 pip-audit -r /tmp/marketpulse-requirements.txt
+      - name: Frontend dependency audit
+        run: pnpm --dir apps/dashboard audit --prod --audit-level high

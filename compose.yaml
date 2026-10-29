@@ -1,0 +1,92 @@
+name: marketpulse
+x-env: &env
+  MP_DATABASE_URL: postgresql://marketpulse:marketpulse_local@postgres:5432/marketpulse
+  MP_KAFKA_BROKERS: kafka:9092
+  MP_DATA_DIR: /data
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: marketpulse
+      POSTGRES_PASSWORD: marketpulse_local
+      POSTGRES_DB: marketpulse
+    ports: ['127.0.0.1:5546:5432']
+    volumes: [warehouse:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U marketpulse -d marketpulse]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+  kafka-volume-init:
+    image: apache/kafka:3.9.1
+    user: '0:0'
+    volumes: [broker:/tmp/kraft-combined-logs]
+    entrypoint: [/bin/sh, -c]
+    command: ['chown -R 1000:1000 /tmp/kraft-combined-logs']
+  kafka:
+    depends_on:
+      kafka-volume-init: {condition: service_completed_successfully}
+    image: apache/kafka:3.9.1
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: INTERNAL://:9092,EXTERNAL://:19094,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://localhost:19094
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'false'
+      KAFKA_HEAP_OPTS: -Xms256m -Xmx512m
+      KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
+    ports: ['127.0.0.1:19094:19094']
+    volumes: [broker:/tmp/kraft-combined-logs]
+    healthcheck:
+      test: [CMD-SHELL, /opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list]
+      interval: 10s
+      timeout: 10s
+      retries: 30
+  api:
+    build:
+      context: .
+      dockerfile: infra/api.Dockerfile
+    environment:
+      <<: *env
+      MP_LAB_ENABLED: ${MP_LAB_ENABLED:-false}
+    ports: ['127.0.0.1:8030:8030']
+    depends_on:
+      postgres: {condition: service_healthy}
+    volumes: [replay-data:/data]
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://localhost:8030/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+  runner:
+    build:
+      context: .
+      dockerfile: infra/runner.Dockerfile
+    environment: *env
+    depends_on:
+      postgres: {condition: service_healthy}
+      kafka: {condition: service_healthy}
+    volumes: [replay-data:/data]
+    restart: on-failure:3
+  dashboard:
+    build:
+      context: .
+      dockerfile: infra/dashboard.Dockerfile
+    environment:
+      API_INTERNAL_URL: http://api:8030
+      HOSTNAME: 0.0.0.0
+      PORT: '8031'
+    ports: ['127.0.0.1:8031:8031']
+    depends_on:
+      api: {condition: service_healthy}
+volumes:
+  warehouse:
+  broker:
+  replay-data:
